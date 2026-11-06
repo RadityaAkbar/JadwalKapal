@@ -264,3 +264,28 @@ button, input, select, textarea {
   transform: translateY(0);
 }
 
+/* Modal Route Grid - Perfectly Symmetrical */
+.modal-route-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(120px, 160px) 1fr;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 580px) {
+  .modal-route-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .modal-route-origin,
+  .modal-route-dest {
+    text-align: center !important;
+  }
+  .modal-route-origin > div,
+  .modal-route-dest > div {
+    justify-content: center !important;
+  }
+}
+
+

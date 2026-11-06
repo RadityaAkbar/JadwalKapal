@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Ship, Calendar, Clock, ArrowRight, MapPin, 
-  Users, CheckCircle2, AlertTriangle, X, Copy, 
+import {
+  Ship, Calendar, Clock, ArrowRight, MapPin,
+  Users, CheckCircle2, AlertTriangle, X, Copy,
   Check, Info, ShieldCheck, Waves
 } from 'lucide-react';
 
@@ -62,7 +62,7 @@ export default function DetailJadwalModal({ jadwal, onClose }) {
       default:
         return {
           badge: <span className="badge badge-terjadwal">⏱ Tepat Waktu</span>,
-          desc: 'Pelayaran berjalan sesuai jadwal rencana. Disarankan tiba di pelabuhan 1 jam sebelum keberangkatan.',
+          desc: 'Pelayaran berjalan sesuai jadwal rencana. Disarankan tiba di pelabuhan 3 jam sebelum keberangkatan.',
           color: '#38bdf8',
           bg: 'rgba(14, 165, 233, 0.1)'
         };
@@ -85,7 +85,7 @@ Status: ${jadwal.status}`;
   };
 
   return (
-    <div 
+    <div
       style={{
         position: 'fixed',
         inset: 0,
@@ -99,7 +99,7 @@ Status: ${jadwal.status}`;
       }}
       onClick={onClose}
     >
-      <div 
+      <div
         style={{
           background: 'linear-gradient(180deg, #0e1e33 0%, #091322 100%)',
           border: '1px solid rgba(56, 189, 248, 0.3)',
@@ -208,23 +208,23 @@ Status: ${jadwal.status}`;
               </span>
             </div>
 
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '16px',
-              flexWrap: 'wrap'
-            }}>
+            <div className="modal-route-grid">
               {/* Asal */}
-              <div style={{ flex: '1 1 200px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94a3b8', fontSize: '0.8rem', marginBottom: '4px' }}>
+              <div className="modal-route-origin" style={{ minWidth: 0, textAlign: 'left' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94a3b8', fontSize: '0.8rem', marginBottom: '6px' }}>
                   <MapPin size={14} color="#34d399" />
                   <span>Pelabuhan Asal</span>
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f8fafc' }}>
+                <div style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 800,
+                  color: '#f8fafc',
+                  wordBreak: 'break-word',
+                  lineHeight: 1.3
+                }}>
                   {jadwal.PelabuhanAsal?.nama_pelabuhan || 'Pelabuhan Asal'}
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#38bdf8' }}>
+                <div style={{ fontSize: '0.85rem', color: '#38bdf8', marginTop: '4px' }}>
                   {jadwal.PelabuhanAsal?.kota || '-'}
                 </div>
               </div>
@@ -235,37 +235,88 @@ Status: ${jadwal.status}`;
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '0 12px',
-                flexShrink: 0
+                width: '100%',
+                padding: '0 4px'
               }}>
+                {/* Durasi Badge */}
                 <div style={{
-                  padding: '8px 14px',
+                  padding: '4px 10px',
                   borderRadius: '9999px',
                   background: 'rgba(2, 132, 199, 0.2)',
                   border: '1px solid rgba(56, 189, 248, 0.4)',
                   color: '#38bdf8',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  marginBottom: '8px',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}>
+                  <Clock size={12} />
+                  <span>{durasiText}</span>
+                </div>
+
+                {/* Garis maritim dengan icon kapal */}
+                <div style={{
+                  width: '100%',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  fontSize: '0.78rem',
-                  fontWeight: 700
+                  position: 'relative'
                 }}>
-                  <Ship size={14} />
-                  <span>{durasiText}</span>
-                  <ArrowRight size={14} />
+                  <div style={{
+                    flex: 1,
+                    height: '2px',
+                    background: 'linear-gradient(90deg, rgba(52, 211, 153, 0.5), rgba(56, 189, 248, 0.5))'
+                  }} />
+                  <div style={{
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    background: '#091524',
+                    border: '1.5px solid #38bdf8',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#38bdf8',
+                    boxShadow: '0 0 12px rgba(56, 189, 248, 0.3)',
+                    margin: '0 4px',
+                    flexShrink: 0
+                  }}>
+                    <Ship size={15} />
+                  </div>
+                  <div style={{
+                    flex: 1,
+                    height: '2px',
+                    background: 'linear-gradient(90deg, rgba(56, 189, 248, 0.5), rgba(129, 140, 248, 0.5))'
+                  }} />
+                  <ArrowRight size={14} color="#818cf8" style={{ marginLeft: '2px', flexShrink: 0 }} />
                 </div>
+
+                <span style={{ fontSize: '0.68rem', color: '#64748b', marginTop: '6px', whiteSpace: 'nowrap' }}>
+                  Jalur Penyeberangan
+                </span>
               </div>
 
               {/* Tujuan */}
-              <div style={{ flex: '1 1 200px', textAlign: 'right' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '6px', color: '#94a3b8', fontSize: '0.8rem', marginBottom: '4px' }}>
+              <div className="modal-route-dest" style={{ minWidth: 0, textAlign: 'right' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '6px', color: '#94a3b8', fontSize: '0.8rem', marginBottom: '6px' }}>
                   <MapPin size={14} color="#38bdf8" />
                   <span>Pelabuhan Tujuan</span>
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f8fafc' }}>
+                <div style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 800,
+                  color: '#f8fafc',
+                  wordBreak: 'break-word',
+                  lineHeight: 1.3
+                }}>
                   {jadwal.PelabuhanTujuan?.nama_pelabuhan || 'Pelabuhan Tujuan'}
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#38bdf8' }}>
+                <div style={{ fontSize: '0.85rem', color: '#38bdf8', marginTop: '4px' }}>
                   {jadwal.PelabuhanTujuan?.kota || '-'}
                 </div>
               </div>
@@ -461,3 +512,4 @@ Status: ${jadwal.status}`;
     </div>
   );
 }
+
