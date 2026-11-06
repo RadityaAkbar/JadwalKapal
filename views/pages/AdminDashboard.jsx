@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { 
   Ship, Anchor, Calendar, Clock, Plus, Trash2, Edit3, CheckCircle2, 
-  AlertTriangle, ArrowRight, RefreshCw, X, Shield, Users, MapPin
+  AlertTriangle, ArrowRight, RefreshCw, X, Shield, Users, MapPin, Eye
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import DetailJadwalModal from '../components/DetailJadwalModal';
 
 export default function AdminDashboard() {
   const { admin, isAuthenticated, loading: authLoading } = useAuth();
@@ -20,6 +21,7 @@ export default function AdminDashboard() {
   const [pelabuhanList, setPelabuhanList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState({ type: '', message: '' });
+  const [selectedDetail, setSelectedDetail] = useState(null);
 
   // Modal states
   const [showJadwalModal, setShowJadwalModal] = useState(false);
@@ -458,6 +460,14 @@ export default function AdminDashboard() {
                         </td>
                         <td style={{ padding: '16px', textAlign: 'right' }}>
                           <button 
+                            onClick={() => setSelectedDetail(j)}
+                            className="btn btn-secondary btn-sm"
+                            style={{ marginRight: '8px' }}
+                            title="Lihat Detail Jadwal & Kapal"
+                          >
+                            <Eye size={15} color="#38bdf8" />
+                          </button>
+                          <button 
                             onClick={() => handleDeleteJadwal(j.id)}
                             className="btn btn-danger btn-sm"
                             title="Hapus Jadwal"
@@ -888,6 +898,14 @@ export default function AdminDashboard() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Modal Detail Jadwal & Kapal */}
+      {selectedDetail && (
+        <DetailJadwalModal
+          jadwal={selectedDetail}
+          onClose={() => setSelectedDetail(null)}
+        />
       )}
 
     </div>

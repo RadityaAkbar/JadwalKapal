@@ -242,3 +242,25 @@ button, input, select, textarea {
   background: #0f1d30;
   color: #fff;
 }
+
+/* Schedule Card Interactive State */
+.schedule-row {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.2s ease, 
+              box-shadow 0.2s ease, 
+              background-color 0.2s ease !important;
+}
+
+.schedule-row:hover {
+  background: rgba(18, 36, 61, 0.95) !important;
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(14, 165, 233, 0.2);
+}
+
+.schedule-row:active {
+  transform: translateY(0);
+}
+

@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
   Ship, Search, Filter, Calendar, Clock, ArrowRight, 
-  MapPin, RefreshCw, AlertCircle, Sparkles, Navigation 
+  MapPin, RefreshCw, AlertCircle, Sparkles, Navigation,
+  Eye, ChevronRight
 } from 'lucide-react';
+import DetailJadwalModal from '../components/DetailJadwalModal';
 
 export default function PublicSchedule() {
   const [jadwal, setJadwal] = useState([]);
   const [pelabuhanList, setPelabuhanList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDetail, setSelectedDetail] = useState(null);
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -257,6 +260,8 @@ export default function PublicSchedule() {
             {filteredJadwal.map((j) => (
               <div 
                 key={j.id}
+                onClick={() => setSelectedDetail(j)}
+                title="Klik untuk melihat detail jadwal dan armada kapal"
                 style={{
                   background: 'rgba(13, 27, 45, 0.8)',
                   backdropFilter: 'blur(12px)',
@@ -336,9 +341,31 @@ export default function PublicSchedule() {
                   </div>
                 </div>
 
-                {/* Status Badge */}
-                <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-                  {getStatusBadge(j.status)}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+                  <div>{getStatusBadge(j.status)}</div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedDetail(j);
+                    }}
+                    className="btn btn-secondary btn-sm"
+                    style={{
+                      padding: '6px 12px',
+                      fontSize: '0.8rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'rgba(2, 132, 199, 0.15)',
+                      borderColor: 'rgba(56, 189, 248, 0.3)',
+                      color: '#38bdf8'
+                    }}
+                    title="Lihat detail lengkap jadwal dan kapal"
+                  >
+                    <Eye size={14} />
+                    <span>Detail</span>
+                    <ChevronRight size={14} />
+                  </button>
                 </div>
 
               </div>
@@ -346,6 +373,14 @@ export default function PublicSchedule() {
           </div>
         )}
       </main>
+
+      {/* Modal Detail Jadwal & Kapal */}
+      {selectedDetail && (
+        <DetailJadwalModal
+          jadwal={selectedDetail}
+          onClose={() => setSelectedDetail(null)}
+        />
+      )}
 
       {/* Footer */}
       <footer style={{
